@@ -1,0 +1,205 @@
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    font-family: cursive;
+}
+
+button, .btn {
+    border: none;
+    background-color: white;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.sidebar {
+    position: sticky; /* Fixa o sidebar na tela enquanto outros conteúdos rolam */
+    top: 0; /* Inicia no topo da página */
+    height: 100vh; /* Altura completa da tela */
+}
+
+.nav_01 {
+    border-right: 2rem solid;
+    border-color: orange;
+    display: flex;
+    flex-direction: column;
+    width: 15vw;
+    position: sticky;
+    height: 100vh;
+}
+
+.logo {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    transform: scale(1.5);
+}
+
+.itens {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 3;
+}
+
+.item_menu{
+    flex-grow: 1;
+    align-content: center;
+}
+
+.img_item {
+    width: 10rem;
+}
+
+.img_item:hover {
+    cursor: pointer;
+    transition: transform .3s;
+    -ms-transform: scale(1.4);
+    -webkit-transform: scale(1.4);  
+    transform: scale(1.35);
+}
+
+.nav_02 {
+    width: 57vw;
+    margin-left: 80px;
+    overflow-y: auto;
+    position: sticky;
+    height: 100vh;
+    top: 0;
+}
+
+.titulo_produtos {
+    font-size: 120px;
+}
+
+.nav_produtos {
+    display: flex;
+}
+
+.produto_card {
+    margin: 50px;
+    border-radius: 10%;
+    border-bottom: 10px solid white;
+}
+
+.produto_card:hover {
+    cursor: pointer;
+    transition: transform .3s;
+    -ms-transform: scale(1.4);
+    -webkit-transform: scale(1.4);  
+    transform: scale(1.05);
+    border-color: orange;
+    border-radius: 10% 10% 0 0;
+}
+
+.produto_img {
+    height: 35vh;
+    width: 15vw;
+    border-radius: 10% 10% 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.produto_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.produto_nome {
+    font-size: 70px;
+    font-weight: bold;
+    text-shadow: orange 1px 0 5px;
+}
+
+.produto_valor {
+    font-size: 50px;
+    text-shadow: orange 1px 0 5px;
+}
+
+.nav_03 {
+    width: 28vw;
+    margin-right: 50px;
+    margin-left: 30px;  
+}
+
+.pedido_titulo {
+    font-size: 120px;
+    text-align: center;
+}
+
+.pedido_itens {
+    height: 65vh;
+    position: sticky;
+    overflow-y: auto;
+}
+
+.pedido_produto {
+    display: flex;
+    align-items: center;
+}
+
+.pedido_nome_produto {
+    font-size: 60px;
+    width: 18vw;
+}
+
+.pedido_total_produto {
+    font-size: 60px;
+    width: 10vw;
+}
+
+.item_quant {
+    width: 15vw;
+}
+
+.btn_qtd {
+    height: 6rem;
+    width: 6rem;
+    font-size: 50px;
+    border: 2px solid orange;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.text_qtd {
+    border: 2px solid gray;
+    border-radius: 20%;
+    font-size: 50px;
+    height: 6rem;
+    width: 9rem;
+    text-align: center;
+}
+
+.pedido_total {
+    font-size: 70px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 30px;
+}
+
+.pedido_botoes {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pedido_btn {
+    width: 10vw;
+    height: 6vh;
+    font-size: 60px;
+    background: none;
+    border-bottom: 10px solid orange;
+}
+
+.pedido_btn:hover {
+    border: 10px solid orange;
+    cursor: pointer;
+    transition: transform 30.3s;
+}
