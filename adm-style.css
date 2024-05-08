@@ -1,0 +1,190 @@
+.TabControl{
+    width:100%;
+    overflow:hidden;
+    padding-left: 20px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.aba{
+    width:165px;
+	text-align:center;
+}
+
+.selected{
+    border-right: solid 20px orange;
+}
+
+.img_item:hover {
+    filter: drop-shadow(0px 7px 10px orange);
+}
+
+.conteudo{
+    display:none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.grid-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.space_pedidos {
+    display: flex;
+}
+
+.table_pedidos {
+    width: 75%;
+    margin-right: 5px;
+    height: 75vh;
+}
+
+table, th, td {
+    border: 1px solid;
+}
+
+.col_1 {
+    width: calc(0.1*60vw);
+}
+
+.col_2 {
+    width: calc(0.4*60vw);
+}
+
+.col_3 {
+    width: calc(0.5*60vw);
+}
+
+.col_4 {
+    width: calc(0.2*60vw);
+}
+
+tbody tr:hover {
+    background-color: orange;
+    cursor: pointer;
+}
+
+td {
+    text-align: center;
+}
+
+.botoes_pedidos {
+
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 60vh;
+    align-items: center;
+}
+
+.botoes_pedidos button {
+    width: 10vw;
+    height: 6vh;
+    font-size: 15px;
+    background: none;
+    border-bottom: 2px solid orange;
+}
+
+.botoes_pedidos button:hover {
+    border: 2px solid orange;
+    cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel_pedido {
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo_pedido {
+    font-weight: bold;
+    font-size: 18px;
+    height: 5vh;
+}
+
+.lista_pedidos {
+    height: 45vh;
+}
+
+.lista_itens {
+    height: 40vh;
+    margin-top: 5px;
+    position: sticky;
+    overflow-y: auto;
+}
+
+.titulo_item_pedido, .item_pedido {
+    display: flex;
+    font-size: 13px;
+    height: 25px;
+}
+
+.cod_item, .titulo {
+    font-weight: bold;
+    width: 7%;
+}
+
+.nome_item {
+    font-weight: bold;
+    width: 27%;
+}
+
+.quant_valor {
+    width: 27%;
+}
+
+.total_item {
+    width: 10%;
+}
+
+.total_pedido {
+    height: 5vh;
+    text-align: end;
+}

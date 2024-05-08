@@ -1,20 +1,4 @@
-// Array de produtos
-const produtos = [
-    { "id": "1", "nome": "Burguer nº 1", "tipo": "hamburguer", "valor": "29.00" },
-    { "id": "2", "nome": "Burguer nº 2", "tipo": "hamburguer", "valor": "35.00" },
-    { "id": "3", "nome": "Burguer nº 3", "tipo": "hamburguer", "valor": "39.00" },
-    { "id": "4", "nome": "Onion Rings", "tipo": "acompanhamento", "valor": "13.00" },
-    { "id": "5", "nome": "Batata Frita M", "tipo": "acompanhamento", "valor": "9.00" },
-    { "id": "6", "nome": "Batata Frita G", "tipo": "acompanhamento", "valor": "15.00" },
-    { "id": "7", "nome": "Coca-cola", "tipo": "bebida", "valor": "7.00" },
-    { "id": "8", "nome": "Sprite", "tipo": "bebida", "valor": "5.00" },
-    { "id": "9", "nome": "Fanta", "tipo": "bebida", "valor": "5.00" },
-    { "id": "10", "nome": "Milkshake", "tipo": "sobremesa", "valor": "18.00" },
-    { "id": "11", "nome": "Açaí", "tipo": "sobremesa", "valor": "15.00" },
-    { "id": "12", "nome": "Brownie", "tipo": "sobremesa", "valor": "7.00" },
-];
-
-pedido = [];
+import { produtos } from './modulo.js';
 
 document.addEventListener('DOMContentLoaded', criarCardsDeProdutos);
 
@@ -37,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    var btnLimpar = document.getElementById("btn_limpar");
+    btnLimpar.onclick = function() {limparPedido();};
 });
 
 // Função para criar os cards de produtos

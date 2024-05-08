@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: cursive;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.opcoes {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+}
+
+button {
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    width: 20vw;
+    height: 55vh;
+    margin: 0 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 15%;
+}
+
+button:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, orange 0px 0px 0px 1px;
+    transform: scale(1.05);
+}
+
+h1 {
+    color: white;
+    text-shadow: black 80px 0 150px;
+}

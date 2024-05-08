@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burguer</title>
+    <link rel="icon" href="img/icones/hamburguer.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adm-style.css">
+    <script type="module" src="adm-script.js" defer></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <nav class="nav_01">
+            <div class="logo">
+                <img src="img/icones/8947412623_80283b0a-e924-4df3-b212-8c3dbf1cb145.png" alt="">
+            </div>
+            <div class="itens abas">
+                <li class="item_menu"><div class="aba" id="menu_produto"><img class="img_item" src="img/icones/lanche.png" alt=""></div></li>
+                <li class="item_menu"><div class="aba" id="menu_pedido"><img class="img_item" src="img/icones/caracteristicas.png" alt=""></div></li>
+            </div>
+        </nav>
+    </aside>
+    <div class="TabControl">
+        <div id="content">
+            <div class="conteudo">
+                <p class="titulo_produtos">Produtos</p>
+                <nav class="space_produtos">
+                    <nav class="table_produtos">
+                        <table id="tabela_produtos">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Cod</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabelaProdutos">
+                                <!-- As linhas serão adicionadas aqui dinamicamente -->
+                            </tbody>
+                        </table>
+                    </nav>
+                </nav>
+            </div>
+            <div class="conteudo">
+                <p class="titulo_produtos">Pedidos</p>
+                <nav class="space_pedidos">
+                    <nav class="table_pedidos">
+                        <table id="tabela_pedidos">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Cod</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Data</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabela">
+                                <!-- As linhas serão adicionadas aqui dinamicamente -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th scope="row" colspan="2">Total</th>
+                                    <td id="totalValor">R$ 0,00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </nav>
+                    <nav class="botoes_pedidos">
+                        <button>Imprimir</button>
+                        <button>Exportar</button>
+                    </nav>
+                </nav>
+                <nav>
+                    <nav id="myModal" class="modal">
+                        <nav class="modal-content" id="modal_content">
+                            <span class="close">&times;</span>
+                            <nav class="panel_pedido">
+                                <nav class="titulo_pedido" id="titulo_pedido"> Pedido nº X</nav>
+                                <nav class="lista_pedidos">
+                                    <nav class="titulo_item_pedido">
+                                        <p class="titulo cod_item">Cod</p>
+                                        <p class="titulo nome_item">Nome</p>
+                                        <p class="titulo quant_valor">Quantidade</p>
+                                        <p class="titulo total_item">Valor</p>                                
+                                    </nav>
+                                    <nav class="lista_itens" id="lista_itens">
+                                        <nav class="item_pedido">
+                                            <p class="cod_item">1</p>
+                                            <p class="nome_item">Burguer</p>
+                                            <p class="quant_valor">2 x R$ 37,00</p>
+                                            <p class="total_item">R$ 74,00</p>                                
+                                        </nav>
+                                    </nav>
+                                </nav>
+                                <nav class="total_pedido"><p id="total_pedido">Total: R$ 0,00</p></nav>
+                            </nav>
+                        </nav>
+                    </nav>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

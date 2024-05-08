@@ -5,63 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Burguer</title>
     <link rel="icon" href="img/icones/hamburguer.png" type="image/png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="home.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <aside class="sidebar">
-        <nav class="nav_01">
-            <div class="logo">
-                <img src="img/icones/8947412623_80283b0a-e924-4df3-b212-8c3dbf1cb145.png" alt="">
-            </div>
-            <div class="itens">
-                <div class="item_menu" data-target="hamburguer"><img class="img_item" src="img/icones/hamburguer.png" alt=""></div>
-                <div class="item_menu" data-target="acompanhamento"><img class="img_item" src="img/icones/batatas-fritas.png" alt=""></div>
-                <div class="item_menu" data-target="bebida"><img class="img_item" src="img/icones/drinque-suave.png" alt=""></div>
-                <div class="item_menu" data-target="sobremesa"><img class="img_item" src="img/icones/frappe.png" alt=""></div>
-            </div>
-        </nav>
-    </aside>
+    <div class="logo">
+        <img src="img/icones/8947412623_80283b0a-e924-4df3-b212-8c3dbf1cb145.png" alt="">
+    </div>
 
-    <!-- Estrutura inicial do HTML onde os produtos serão inseridos -->
-    <nav class="nav_02">
-        <div class="produtos hamburguer" id="hamburguer">
-            <p class="titulo_produtos">Hamburguer</p>
-            <nav class="nav_produtos"></nav>
-        </div>
-        <hr>
-        <div class="produtos acompanhamento" id="acompanhamento">
-            <p class="titulo_produtos">Acompanhamento</p>
-            <nav class="nav_produtos"></nav>
-        </div>
-        <hr>
-        <div class="produtos bebida" id="bebida">
-            <p class="titulo_produtos">Bebidas</p>
-            <nav class="nav_produtos"></nav>
-        </div>
-        <hr>
-        <div class="produtos sobremesa" id="sobremesa">
-            <p class="titulo_produtos">Sobremesa</p>
-            <nav class="nav_produtos"></nav>
-        </div>
-    </nav>
-
-    <nav class="nav_03">
-        <div class="pedido_titulo">
-            <p>Pedido</p>
-        </div>
-        <hr>
-        <div class="pedido_itens">
-        </div>
-        <hr>
-        <div class="pedido_total">
-            <p>Total:</p>
-            <p class="pedido_valor" id="total_pedido">R$ 0.00</p>
-        </div>
-        <div class="pedido_botoes">
-            <button class="pedido_btn limpar" onclick="limparPedido()">Limpar</button>
-            <button class="pedido_btn continuar">Continuar</button>
-        </div>
-    </nav>    
+    <div class="opcoes">
+        <a href="pedido.html"><button class="burguer" style="background-image: url(img/background/1.jpg);">
+            <h1>Fazer um pedido</h1>
+        </button></a>
+        <a href="adm.html"><button class="adm" style="background-image: url(img/background/13.jpg);">
+            <h1>Acesso ADM</h1>
+        </button></a>
+    </div>
 </body>
 </html>
