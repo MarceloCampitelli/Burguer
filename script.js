@@ -1,4 +1,6 @@
-import { produtos } from './modulo.js';
+import { produtos, pedido, pedido_item } from './modulo.js';
+
+var pedidoAtual = [];
 
 document.addEventListener('DOMContentLoaded', criarCardsDeProdutos);
 
@@ -23,7 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var btnLimpar = document.getElementById("btn_limpar");
-    btnLimpar.onclick = function() {limparPedido();};
+    btnLimpar.onclick = function() {limparPedido()};
+
+    var btnLimpar = document.getElementById("btn_continuar");
+    btnLimpar.onclick = function() {fecharPedido()};
 });
 
 // Função para criar os cards de produtos
@@ -77,19 +82,25 @@ function adicionarItemPedido(produto) {
         processarQuantidade(1, produto.id);
     } else {
         const pedidoProduto = document.createElement('div');
-        pedidoProduto.className = 'pedido_produto ';
+        pedidoProduto.className = 'pedido_produto';
         pedidoProduto.id = `item_quant-${produto.id}`;
         pedidoProduto.innerHTML = `
             <p class="pedido_nome_produto">${produto.nome}</p>
             <div data-app="product.quantity" class="item_quant">
-                <input class="btn btn_qtd" type="button" value='-' onclick="processarQuantidade(-1, '${produto.id}')" />
+                <input class="btn btn_qtd" id="btn_del_${produto.id}" type="button" value='-'/>
                 <input id="quant-${produto.id}" name="quant" class="text_qtd" size="1" type="text" value="1" maxlength="5" />
-                <input class="btn btn_qtd" type="button" value='+' onclick="processarQuantidade(1, '${produto.id}')">
+                <input class="btn btn_qtd" id="btn_add_${produto.id}" type="button" value='+'/>
             </div>
             <p id="total-${produto.id}" class="pedido_total_produto">R$ ${produto.valor}</p>
         `;
         pedidoItens.appendChild(pedidoProduto);
     }
+
+    var btnAddItem = document.getElementById(`btn_add_${produto.id}`);
+    btnAddItem.onclick = function() {processarQuantidade(1, produto.id)};
+
+    var btnDelItem = document.getElementById(`btn_del_${produto.id}`);
+    btnDelItem.onclick = function() {processarQuantidade(-1, produto.id)};
 
     atualizarTotal();
 }
@@ -129,4 +140,32 @@ function atualizarTotal() {
 function limparPedido() {
     document.querySelector('.pedido_itens').innerHTML = '';
     atualizarTotal();
+}
+
+function fecharPedido() {
+    const pedidoItens = document.querySelectorAll('.pedido_produto');
+
+    pedidoItens.forEach(item => {
+        const id = item.id.split('-')[1];
+        const quantidade = parseInt(item.querySelector('.text_qtd').value);
+
+        pedidoAtual.push({ id: id, quantidade: quantidade });
+    });
+
+    var idPedido = pedido.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+    var now = new Date();
+    var dataHora = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+    var valorPedido = document.getElementById('total_pedido').textContent.match(/\d+\.?\d*/)[0];
+    pedido.push({ id: idPedido, valor: valorPedido, dataHora: dataHora });
+
+    pedidoAtual.forEach(pItem => {
+        var idPedidoItem = pedido_item.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+        var valorItem = pItem.quantidade * produtos.find((element) => element.id==pItem.id).valor;
+        pedido_item.push({ id: idPedidoItem, id_pedido: idPedido, id_produto: pItem.id, quantidade: pItem.quantidade, valor_total: valorItem});
+    })
+    
+    limparPedido();
+
+    alert(`Pedido nº ${idPedido} realizado com sucesso. Seu número será chamado em breve`);
+    
 }

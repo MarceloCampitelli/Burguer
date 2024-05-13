@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="adm-style.css">
     <script type="module" src="adm-script.js" defer></script>
+    <script src="sheet.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
 </head>
 <body>
     <aside class="sidebar">
         <nav class="nav_01">
             <div class="logo">
-                <img src="img/icones/8947412623_80283b0a-e924-4df3-b212-8c3dbf1cb145.png" alt="">
+                <a href="index.html"><img src="img/icones/8947412623_80283b0a-e924-4df3-b212-8c3dbf1cb145.png" alt=""></a>
             </div>
             <div class="itens abas">
                 <li class="item_menu"><div class="aba" id="menu_produto"><img class="img_item" src="img/icones/lanche.png" alt=""></div></li>
@@ -60,7 +63,7 @@
                                 <!-- As linhas serão adicionadas aqui dinamicamente -->
                             </tbody>
                             <tfoot>
-                                <tr>
+                                <tr id="table_foot">
                                     <th scope="row" colspan="2">Total</th>
                                     <td id="totalValor">R$ 0,00</td>
                                 </tr>
@@ -68,14 +71,14 @@
                         </table>
                     </nav>
                     <nav class="botoes_pedidos">
-                        <button>Imprimir</button>
-                        <button>Exportar</button>
+                        <button id="gerarPDF">Imprimir</button>
+                        <button id="exportarExcel">Exportar</button>
                     </nav>
                 </nav>
                 <nav>
-                    <nav id="myModal" class="modal">
+                    <nav id="modalPedidos" class="modal">
                         <nav class="modal-content" id="modal_content">
-                            <span class="close">&times;</span>
+                            <span class="close_pedido">&times;</span>
                             <nav class="panel_pedido">
                                 <nav class="titulo_pedido" id="titulo_pedido"> Pedido nº X</nav>
                                 <nav class="lista_pedidos">

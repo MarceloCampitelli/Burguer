@@ -1,7 +1,7 @@
 
 import { pedido, pedido_item, produtos } from './modulo.js';
 
-const modal = document.getElementById("myModal");
+const modalPedido = document.getElementById("modalPedidos");
 
 $(document).ready(function(){
     $("#content div:nth-child(1)").show();
@@ -46,15 +46,76 @@ document.addEventListener('DOMContentLoaded', function() {
         ped.addEventListener('click', gridProdutos());
     }
 
+    var btnExport = document.getElementById('exportarExcel');
+    btnExport.onclick = () => exportReportToExcel();
+
     var el = document.getElementById('menu_pedido');
     if (el) {
         el.addEventListener('click', grid());
     }
 
-    var span = document.getElementsByClassName("close")[0];
-    span.onclick = function() {
-        modal.style.display = "none";
+    var spanPedido = document.getElementsByClassName("close_pedido")[0];
+    spanPedido.onclick = function() {
+        modalPedido.style.display = "none";
     }
+
+});
+
+document.getElementById('gerarPDF').addEventListener('click', function() {
+    // Criar um novo documento PDF
+    var doc = new jsPDF();
+
+    // Adicionar cabeçalho com título e data
+    var titulo = "Relatório de Pedidos";
+    var data = new Date().toLocaleDateString('pt-BR');
+    doc.setFontSize(18);
+    doc.text(titulo, 105, 20, null, null, "center");
+    doc.setFontSize(12);
+    doc.text("Data de Geração: " + data, 105, 30, null, null, "center");
+    
+    // Adicionar conteúdo da tabela
+    var table = document.getElementById("tabela_pedidos");
+    var rows = table.rows;
+    var columnCount = table.rows[0].cells.length;
+    var cellWidth = 180 / columnCount; // Ajuste o valor de 180 para o tamanho total da folha menos a margem
+    
+    var yPos = 50; // Posição vertical inicial da tabela no PDF
+
+    for(var i = 0; i < rows.length; i++) {
+        if (i < (rows.length - 1)) {
+            var cells = rows[i].cells;
+            var xPos = 10; // Posição horizontal inicial da tabela no PDF
+
+            for(var j = 0; j < cells.length; j++) {
+                var text = cells[j].innerText;
+                var cellHeight = 10; // Altura da célula
+                var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize(); // Largura do texto
+
+                // Adiciona borda ao redor da célula
+                doc.rect(xPos, yPos - cellHeight, cellWidth, cellHeight);
+
+                // Adiciona texto à célula
+                doc.text(xPos + 3, yPos - 3, text);
+
+                xPos += cellWidth; // Atualiza a posição horizontal para a próxima célula
+            }
+            yPos += cellHeight; // Atualiza a posição vertical para a próxima linha
+        }
+    }
+
+    // Atualiza a altura da última linha para se ajustar ao texto
+    yPos += 5;
+
+    // Adiciona a linha de total
+    doc.rect(10, yPos, cellWidth * columnCount, cellHeight);
+    doc.text("Total", 15, yPos + 8); // Texto "Total"
+    doc.text(document.getElementById("totalValor").innerText, cellWidth * 2 + 15, yPos + 8); // Valor total
+
+    // Salvar o PDF no navegador
+    doc.save("relatorio_pedidos.pdf");
+
+    // Para evitar que o PDF seja salvo automaticamente
+    return false;
 });
 
 function gridProdutos() {
@@ -69,7 +130,7 @@ function gridProdutos() {
         tr.id = item.id;
         tr.innerHTML = `
             <th class="col_1" scope="row">${item.id}</th>
-            <td class="col_2">R$ ${item.nome}</td>
+            <td class="col_2">${item.nome}</td>
             <td class="col_3">${item.tipo}</td>
             <td class="col_4">${item.valor}</td>
         `;
@@ -111,7 +172,7 @@ function grid() {
 function openModal(id) {
     var modalContent = document.getElementById("modal_content");
     modalContent.style.display = "block";
-    modal.style.display = "block";
+    modalPedido.style.display = "block";
     
     var tituloModal = document.getElementById("titulo_pedido");
     tituloModal.textContent =` Pedido nº ${id}`;
@@ -145,4 +206,11 @@ function gridItens(id) {
 
     const totalEmTela = document.getElementById('total_pedido');
     totalEmTela.textContent = `Total: R$ ${totalPedido}`;
+}
+
+function exportReportToExcel() {
+    const fileName = 'tabela_pedidos.xlsx';
+    const table = document.getElementById("tabela_pedidos");
+    const wb = XLSX.utils.table_to_book(table);
+    XLSX.writeFile(wb, fileName);
 }
