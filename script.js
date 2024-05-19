@@ -1,8 +1,13 @@
-import { produtos, pedido, pedido_item } from './modulo.js';
+var produtos = [];
 
 var pedidoAtual = [];
 
-document.addEventListener('DOMContentLoaded', criarCardsDeProdutos);
+const modalPedido = document.getElementById("modalPedido");
+
+document.addEventListener('DOMContentLoaded', async function() {
+    produtos = await listaProdutos();
+    criarCardsDeProdutos();
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarIcons = document.querySelectorAll('.sidebar .item_menu');
@@ -24,12 +29,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    var spanPedido = document.getElementsByClassName("close_pedido")[0];
+    spanPedido.onclick = function() {
+        modalPedido.style.display = "none";
+    }
+
     var btnLimpar = document.getElementById("btn_limpar");
     btnLimpar.onclick = function() {limparPedido()};
 
-    var btnLimpar = document.getElementById("btn_continuar");
-    btnLimpar.onclick = function() {fecharPedido()};
+    var btnContinuar = document.getElementById("btn_continuar");
+    btnContinuar.onclick = function() {fecharPedido()};
 });
+
+async function listaProdutos() {
+    try {
+        const response = await fetch("http://localhost:8080/produtos", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        return [];
+    }
+};
 
 // Função para criar os cards de produtos
 function criarCardsDeProdutos() {
@@ -142,30 +174,54 @@ function limparPedido() {
     atualizarTotal();
 }
 
-function fecharPedido() {
+async function fecharPedido() {
     const pedidoItens = document.querySelectorAll('.pedido_produto');
-
+    let pedidoAtual = [];
     pedidoItens.forEach(item => {
         const id = item.id.split('-')[1];
         const quantidade = parseInt(item.querySelector('.text_qtd').value);
-
-        pedidoAtual.push({ id: id, quantidade: quantidade });
+        pedidoAtual.push({ idProduto: parseInt(id), quantidade: quantidade });
     });
 
-    var idPedido = pedido.reduce((max, item) => Math.max(max, item.id), 0) + 1;
-    var now = new Date();
-    var dataHora = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-    var valorPedido = document.getElementById('total_pedido').textContent.match(/\d+\.?\d*/)[0];
-    pedido.push({ id: idPedido, valor: valorPedido, dataHora: dataHora });
+    var totalPedido = document.getElementById('total_pedido').textContent;
+    var valorPedido = parseFloat(totalPedido.match(/\d+\.?\d*/)[0]);
 
-    pedidoAtual.forEach(pItem => {
-        var idPedidoItem = pedido_item.reduce((max, item) => Math.max(max, item.id), 0) + 1;
-        var valorItem = pItem.quantidade * produtos.find((element) => element.id==pItem.id).valor;
-        pedido_item.push({ id: idPedidoItem, id_pedido: idPedido, id_produto: pItem.id, quantidade: pItem.quantidade, valor_total: valorItem});
-    })
-    
-    limparPedido();
+    const pedidoData = {
+        valor: valorPedido,
+        itens: pedidoAtual
+    };
 
-    alert(`Pedido nº ${idPedido} realizado com sucesso. Seu número será chamado em breve`);
-    
+    try {
+        const response = await fetch("http://localhost:8080/pedidos", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(pedidoData)
+        });
+
+        if (response.ok) {
+            const pedido = await response.json();
+            limparPedido();
+
+            var numPedido = document.getElementById("numero");
+            numPedido.textContent = `Nº ${pedido.id}`;
+
+            var totalAPagar = document.getElementById("totalPedido");
+            totalAPagar.textContent = `Total a ser pago: ${totalPedido}`;
+            
+            var modalContent = document.getElementById("modal_content");
+            modalContent.style.display = "block";
+            modalPedido.style.display = "block";
+
+        } else {
+            const errorData = await response.json();
+            const errorMessage = errorData.message || 'Falha ao realizar o pedido';
+            throw new Error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao realizar o pedido');
+    }
 }

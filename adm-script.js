@@ -1,5 +1,6 @@
-
-import { pedido, pedido_item, produtos } from './modulo.js';
+var produtos = [];
+var pedidos = [];
+var itensPedidos = [];
 
 const modalPedido = document.getElementById("modalPedidos");
 
@@ -21,7 +22,7 @@ $(document).ready(function(){
     );
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const sidebarIcons = document.querySelectorAll('.sidebar .item_menu');
     const scrollContainer = document.querySelector('.TabControl');
 
@@ -40,6 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    produtos = await listaProdutos();
+    pedidos = await listaPedidos();
+    itensPedidos = await totalItensPedidos();
 
     var ped = document.getElementById('menu_produto');
     if (ped) {
@@ -118,7 +123,68 @@ document.getElementById('gerarPDF').addEventListener('click', function() {
     return false;
 });
 
-function gridProdutos() {
+async function listaProdutos() {
+    try {
+        const response = await fetch("http://localhost:8080/produtos", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        return [];
+    }
+}
+
+async function listaPedidos() {
+    try {
+        const response = await fetch("http://localhost:8080/pedidos", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        });
+
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        return [];
+    }
+}
+
+async function totalItensPedidos() {
+    try {
+        const response = await fetch("http://localhost:8080/pedidoItem", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        });
+
+
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Erro:', error);
+        return [];
+    }
+}
+
+async function gridProdutos() {
     const tbody = document.getElementById('corpoTabelaProdutos');
     tbody.innerHTML = '';
 
@@ -126,17 +192,16 @@ function gridProdutos() {
 
     produtos.forEach(item => {
         const tr = document.createElement('tr');
-        //tr.onclick = function() {openModal(tr.id);};
         tr.id = item.id;
         tr.innerHTML = `
             <th class="col_1" scope="row">${item.id}</th>
             <td class="col_2">${item.nome}</td>
             <td class="col_3">${item.tipo}</td>
-            <td class="col_4">${item.valor}</td>
+            <td class="col_4">R$ ${item.valor}</td>
         `;
         tbody.appendChild(tr);
 
-        const valorLimpo = parseFloat(item.valor.replace('R$', '').replace(',', '.'));
+        const valorLimpo = parseFloat(item.valor);
         total += valorLimpo;
     });
 
@@ -144,24 +209,30 @@ function gridProdutos() {
     totalValor.textContent = `R$ ${total.toFixed(2)}`;
 }
 
-function grid() {
+async function grid() {
     const tbody = document.getElementById('corpoTabela');
     tbody.innerHTML = '';
 
     let total = 0;
 
-    pedido.forEach(item => {
+    pedidos.forEach(item => {
+
+        const dataHoraString = item.dataHora;
+        const dataHoraMoment = moment(dataHoraString);
+        const dataHoraBrasilia = dataHoraMoment.tz('America/Sao_Paulo');
+        const dataHoraFormatada = dataHoraBrasilia.format('DD/MM/YYYY HH:mm:ss');
+
         const tr = document.createElement('tr');
         tr.onclick = function() {openModal(tr.id);};
         tr.id = item.id;
         tr.innerHTML = `
             <th class="col_1" scope="row">${item.id}</th>
             <td class="col_2">R$ ${item.valor}</td>
-            <td class="col_3">${item.dataHora}</td>
+            <td class="col_3">${dataHoraFormatada}</td>
         `;
         tbody.appendChild(tr);
 
-        const valorLimpo = parseFloat(item.valor.replace('R$', '').replace(',', '.'));
+        const valorLimpo = parseFloat(item.valor);
         total += valorLimpo;
     });
 
@@ -179,12 +250,12 @@ function openModal(id) {
     gridItens(id);
 }
 
-function gridItens(id) {
+async function gridItens(id) {
     const listaItens = document.getElementById('lista_itens');
     listaItens.innerHTML = '';
     var totalPedido = 0;
 
-    const itensPedido = pedido_item.filter(product => product.id_pedido == id);
+    const itensPedido = itensPedidos.filter(product => product.id_pedido == id);
 
     itensPedido.forEach(item => {
         var nome = (produtos.find(pr => pr.id == item.id_produto)).nome;
